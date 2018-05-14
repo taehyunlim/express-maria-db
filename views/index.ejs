@@ -1,0 +1,205 @@
+<!doctype html>
+<html class="no-js">
+
+<% include ../public/partials/head %>
+
+<body class="body">
+  <div class="preloader">
+      <div class="preloader_img">
+        <img src="/public/img/loader.gif" alt="loading...">
+      </div>
+  </div>
+<div class="bg-dark" id="wrap">
+    <div id="top">
+      <% include ../public/partials/nav %>
+    </div>
+    <!-- /#top -->
+
+    <div class="wrapper">
+		<div id="left">
+            <div class="menu_scroll">
+                <div class="left_media">
+                    <div class="media user-media bg-dark dker">
+
+                    </div>
+                    <hr/>
+                </div>
+                <ul id="menu">
+                    <li class="dropdown_menu">
+                        <a href="javascript:;">
+                            <i class="fa fa-th"></i>
+                            <span class="link-title menu_hide">&nbsp; 서비스관리</span>
+                            <span class="fa arrow menu_hide"></span>
+                        </a>
+                        <ul>
+                            <li>
+                                <a href="notice.php">
+                                    <i class="fa fa-angle-right"></i>
+                                    &nbsp; 공지사항
+                                </a>
+                            </li>
+                            <li>
+                                <a href="faq.html">
+                                    <i class="fa fa-angle-right"></i>
+                                    &nbsp; FAQ
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown_menu">
+                        <a href="javascript:;">
+                            <i class="fa fa-sitemap"></i>
+                            <span class="link-title menu_hide">&nbsp; 일반관리</span>
+                            <span class="fa arrow menu_hide"></span>
+                        </a>
+                        <ul>
+                            <li>
+                                <a href="shop_manage.html">
+                                    <i class="fa fa-angle-right"></i>
+                                    &nbsp; 매장리스트
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <!-- /#menu -->
+            </div>
+        </div>
+        <!-- /#left -->
+        <div id="content" class="bg-container">
+                <header class="head">
+                    <div class="main-bar row">
+                        <div class="col-sm-5 col-lg-6 skin_txt">
+                            <h4 class="nav_top_align">
+                            <i class="fa fa-th"></i>
+                            일반관리/매장리스트
+                        </h4>
+                        </div>
+                        <div class="col-sm-7 col-lg-6">
+                            <ol class="breadcrumb float-xs-right nav_breadcrumb_top_align">
+                                <li class="breadcrumb-item">
+                                    <a href="index1.html">
+                                        <i class="fa fa-home" data-pack="default" data-tags=""></i> 메인
+                                    </a>
+                                </li>
+                                <li class="breadcrumb-item">
+                                    <a href="#">일반관리</a>
+                                </li>
+                                <li class="active breadcrumb-item">매장리스트</li>
+                            </ol>
+                        </div>
+                    </div>
+                </header>
+            <div class="outer">
+                <div class="inner bg-container">
+                        <div class="row">
+                            <div class="col-xs-8">
+                                <div class="card">
+									<div class="card-header">
+										<div class="col-lg-6">
+											<span>매장 리스트</span>
+											<input type="text" id="txtSrch" name="txtSrch" class="form-control" style="display: inline-block; width:200px; margin-left: 10px;" placeholder="매장명 Search">
+										</div>
+										<div class="col-lg-6" align="right">
+											<button type="button" id="btnSrch" class="btn btn-warning" style="font-size: 12px;width: 30%;">조회</button>
+                                        </div>
+                                    </div>
+                                    <div class="card-block">
+                                        <div class="table-responsive m-t-5" style="height:700px;"><div class="loading_img" id="loading"><img src="/public/img/loader.gif" style=" width: 50px;" alt="loading..."></div>
+                                            <table class="table table-striped table-bordered">
+												<colgroup>
+													<col width="20%">
+													<col width="40%">
+													<col width="20%">
+													<col width="20%">
+												</colgroup>
+                                                <thead>
+                                                <tr>
+                                                  <th>가입일</th>
+	                                                <th>매장명</th>
+                                                  <th>로그인정보</th>
+				                                          <th>결제유형</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody id="datas0" class="pointer">
+												<!-- data Area-->
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+							<!-- left area end -->
+
+
+                            <div class="col-xs-4">
+                              <% include ../public/partials/card-right %>
+                            </div>
+                            <!-- two column  form-->
+                            <!-- Basic Query Layout-->
+                            <!-- Horizontal Query layout-->
+                        </div>
+                    </div>
+                    <!-- /.inner -->
+                </div>
+                <!-- /.outer -->
+                <% include ../public/partials/modals %>
+
+                </div>
+                <!-- /.inner -->
+            </div>
+            <!-- /.outer -->
+              <div id="alert">
+                <!-- Modal -->
+                <div class="modal fade" id="search_modal" tabindex="-1" role="dialog"
+                     aria-hidden="true">
+                    <form>
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <div class="input-group search_bar_small">
+                                    <input type="text" class="form-control" placeholder="Search..." name="search">
+                                    <span class="input-group-btn">
+                                      <button class="btn btn-secondary" type="submit"><i class="fa fa-search"></i></button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+              </div>
+                <!-- /.inner -->
+            </div>
+            <!-- /.outer -->
+
+        <!-- /#content -->
+        <!-- Modal -->
+        <div class="modal fade" id="search_modal" tabindex="-1" role="dialog"  aria-hidden="true">
+            <form>
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <div class="input-group search_bar_small">
+                            <input type="text" class="form-control" placeholder="Search..." name="search">
+                            <span class="input-group-btn">
+        <button class="btn btn-secondary" type="submit"><i class="fa fa-search"></i></button>
+      </span>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    <!-- /#content -->
+</div>
+<!-- /#wrap -->
+
+<% include ../public/partials/scripts %>
+
+</body>
+
+</html>

@@ -1,0 +1,295 @@
+<!-- views/partials/scripts.ejs -->
+
+<!-- global scripts-->
+<script type="text/javascript" src="/public/js/components.js"></script>
+<script type="text/javascript" src="/public/js/custom.js"></script>
+<!-- end of global scripts-->
+<!-- plugin level scripts -->
+<!-- <script type="text/javascript" src="vendors/jquery-validation-engine/js/jquery.validationEngine.js"></script> -->
+<!-- <script type="text/javascript" src="vendors/jquery-validation-engine/js/jquery.validationEngine-en.js"></script> -->
+<!-- <script type="text/javascript" src="vendors/jquery-validation/js/jquery.validate.js"></script> -->
+<script type="text/javascript" src="/public/vendors/datepicker/js/bootstrap-datepicker.min.js"></script>
+<script type="text/javascript" src="/public/vendors/datetimepicker/js/DateTimePicker.min.js"></script>
+<script type="text/javascript" src="/public/vendors/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
+<!-- <script type="text/javascript" src="vendors/moment/js/moment.min.js"></script> -->
+<script type="text/javascript" src="/public/vendors/daterangepicker/js/daterangepicker.js"></script>
+<script type="text/javascript" src="/public/vendors/datepicker/js/bootstrap-datepicker.min.js"></script>
+<!-- <script type="text/javascript" src="vendors/noty/js/jquery.noty.packaged.min.js"></script> -->
+<script type="text/javascript" src="/public/vendors/toastr/js/toastr.min.js"></script>
+<!-- <script type="text/javascript" src="js/jasny-bootstrap.js"></script> -->
+<!-- <script type="text/javascript" src="vendors/holderjs/js/holder.js"></script> -->
+<script type="text/javascript" src="/public/vendors/clockpicker/js/jquery-clockpicker.min.js"></script>
+<script type="text/javascript" src="/public/vendors/bootstrap-multiselect/js/bootstrap-multiselect.js"></script>
+<script type="text/javascript" src="/public/vendors/select2/select2.min.js"></script>
+<script type="text/javascript" src="/public/vendors/bootstrap-toggle/js/bootstrap-toggle.min.js"></script>
+
+<!--End of plugin scripts-->
+<!--Page level scripts-->
+<!-- <script type="text/javascript" src="js/pages/validation.js"></script> -->
+<script type="text/javascript" src="/public/js/common.js"></script>
+<script type="text/javascript" src="/public/js/jquery.tablesorter.min.js"></script>
+
+
+<!--Page level scripts-->
+<script>
+var result;
+var obj;
+var strSrch = "";
+var url_thumb = "";
+var url_bizreg = "";
+var url_photo = "";
+var url_request = "";
+
+$(document).ready(function() {
+	$('#datas0').on('click', '.clickable-row', function(event) {
+	  $(this).addClass('active').siblings().removeClass('active');
+	});
+
+	$(document).on('click', '.clicklist', function(e) {
+		SelectOne($(this).attr("oid"), $(this).attr("num"))
+	});
+
+	SelectConst();
+
+	SelectList();
+
+	$("#btnSrch").on("click",function(){
+		strSrch = $("input[name='txtSrch']").val();
+		SelectList();
+	});
+
+	$("input[name='txtSrch']").keydown(function(key) {
+		if (key.keyCode == 13) {
+			strSrch = $("input[name='txtSrch']").val();
+			SelectList();
+		}
+	});
+	$("#btnEnabled").on("click",function(){
+		if($("#txtEnabled").val() == "true"){
+			if(confirm("사용중지 하시겠습니까?")){
+				//$("#btnEnabled").text("계정사용");
+				$("#txtEnabled").val("false");
+				UpdateOne();
+			}
+		}else{
+			//$("#btnEnabled").text("계정중지");
+			$("#txtEnabled").val("true");
+			UpdateOne();
+		}
+	});
+
+	$("#del").on("click",function(){
+		DeleteOne();
+	});
+
+	/*$('#datas0 tr').bind('click', function(e) {
+		$(e.currentTarget).children('td, th').css('background-color','blue');
+	})*/
+	$("#photo").load(function(){
+		if($(this).attr("src") != "/public/img/loader.gif" && $(this).attr("src") != "http://placehold.it/100x100"){
+			//alert("Image loaded.");
+			$("#photo").attr("width","300%");
+		}
+	});
+
+	$('#isPaid').change(function() {
+		if($(this).prop('checked')+"" != $("#isPaid_v").val()){
+			//alert($("#isPaid_v").val() + " / " + $(this).prop('checked'));
+			UpdateOne();
+		}
+    })
+});
+
+function SelectConst() {
+
+	$.ajax({
+			url: '/db/shop_connect.php',
+			  data: {action: 'SelectConst'},
+			  type: 'post',
+		}).done(function(result) {
+			//console.log(result);
+			obj = $.parseJSON(result);
+			url_thumb = obj.thumb;
+			url_bizreg = obj.reg;
+			url_photo = obj.photo;
+			url_request = obj.request;
+	   });
+
+}
+
+function SelectOne(id, num) { //상세정보(우측) 조회
+	//console.log(obj[num]);
+	var v = obj[num];
+
+	$("#shopname").text(v.info.name.ko);
+	$("#oid").text(id);
+	$("#txtEnabled").val(v.enabled);
+	if(v.enabled == true){
+		$("#btnEnabled").text("계정사용");
+		$("#btnEnabled").removeClass("btn-warning");
+		$("#btnEnabled").addClass("btn-success");
+	}else{
+		$("#btnEnabled").text("계정중지");
+		$("#btnEnabled").removeClass("btn-success");
+		$("#btnEnabled").addClass("btn-warning");
+	}
+
+	if(v.is_paid != null && v.is_paid == true){
+		$("#isPaid_v").val(true);
+		$("#isPaid").bootstrapToggle('on');
+	}else{
+		$("#isPaid_v").val(false);
+		$("#isPaid").bootstrapToggle('off');
+	}
+	$("#regDt").text(getDateTime(v.created.ts.$date.$numberLong * 1));
+	if(v.info != null){
+		if(v.info.category != "undefined"){
+			$("#cat").text(v.info.category);
+		}else{
+			$("#cat").text("");
+		}
+		$("#addr").text(v.info.address);
+		//$("#phone").text(v.info.content.phone);
+		$("#bizHour").text(v.info.content.business_hour);
+		$("#restDay").text(v.info.content.rest_day);
+		$("#convInfo").text(v.info.content.information);
+		$("#shopIntro").text(v.info.content.introducion);
+		/*if(v.info.photo.length > 0){
+			$("#photo").attr("width","50%");
+			$("#photo").attr("src","/public/img/loader.gif");
+			$("#photo").attr("src",v.info.photo[0]);
+		}else{
+			$("#photo").attr("width","");
+			$("#photo").attr("src","http://placehold.it/100x100");
+		}*/
+		if(v.info.thumbnail != null){
+			$("#photo").attr("src",url_thumb+"/"+v.info.thumbnail.dir+"/"+v.info.thumbnail.filename);
+		}else{
+			$("#photo").attr("src","http://placehold.it/100x100");
+		}
+		if(v.info.registration != null){
+			$("#biz_cert").attr("src",url_bizreg+"/"+v.info.registration.dir+"/"+v.info.registration.filename);
+		}else{
+			$("#biz_cert").attr("src","/public/img/biz_cert.jpg");
+		}
+	}
+}
+
+function SelectList() {
+	var trstr = "";
+	var cnt1 = 0;
+	$("#datas0").children().remove();
+	$("#date").val(getDateTime());
+	$('#loading').show();
+	//$('.preloader').show();
+	$.ajax({
+		  url: '/db/shop_connect.php',
+         data: {action: 'SelectList', srch: strSrch},
+         type: 'post',
+		}).done(function(result) {
+			obj = $.parseJSON(result);
+			console.log(result);
+			$('#datas0 > tr').fadeOut(0, function(){ $(this).remove();});
+			var nm = "";
+			$.each(obj, function( k, v ) {
+
+					trstr += "<tr class='clickable-row'>";
+					trstr += "<td>"+getDateTime(v.created.ts.$date.$numberLong*1)+"</td>";
+					if(v.info != null){
+						if(v.info.name != "undefined"){
+							trstr += "<td class='clicklist' oid='"+v._id.$oid+"' num="+k+" ><b>"+v.info.name.ko+"</b></td>";
+						}else{
+							trstr += "<td class='clicklist' oid='"+v._id.$oid+"' num="+k+" ><b>-</b></td>";
+						}
+					}else{
+						trstr += "<td class='clicklist' oid='"+v._id.$oid+"' num="+k+" ><b>-</b></td>";
+					}
+					trstr += "<td class='clicklist' oid='"+v._id.$oid+"' num="+k+" >"+v.shopid+"</td>";
+					if(v.is_paid != null && v.is_paid == true){
+						trstr += "<td class='b red'>"+"유료"+"</td>";
+					}else{
+						trstr += "<td>"+"무료"+"</td>";
+					}
+					trstr += "</tr>";
+					cnt1++;
+			});
+
+			if(cnt1 <= 0){
+				trstr = "<tr><td colspan='4'>조회결과가 없습니다.</td></tr>";
+			}
+			$("#datas0").prepend(trstr);
+			//$('.preloader').hide();
+			$('#loading').hide();
+		});
+
+}
+
+function UpdateOne() {
+
+	if($("#txtEnabled").val() == "true"){
+		var enabled = true;
+	}else{
+		var enabled = false;
+	}
+
+	//return;
+	var is_paid =  $("#isPaid").prop('checked');
+	$("#isPaid_v").val(is_paid);
+	console.log($("#oid").text() + " / " + $("#txtEnabled").val() + " / " + is_paid);
+	$.ajax({
+			url: '/db/shop_connect.php',
+			  data: {
+				  action: 'UpdateOne',
+				  oid: $("#oid").text(),
+				  is_paid: is_paid,
+				  enabled: enabled
+			   },
+			  type: 'post',
+		}).done(function(data_result) {
+				if(data_result.indexOf("ok") < 0){
+					toastr.clear();
+					PopToast('error', '['+data_result+']','수정');
+					//SelectList();
+				}else{
+					toastr.clear();
+					PopToast('success', '처리완료','수정');
+					if(enabled == true){
+						$("#btnEnabled").text("계정사용");
+						$("#btnEnabled").removeClass("btn-warning");
+						$("#btnEnabled").addClass("btn-success");
+					}else{
+						$("#btnEnabled").text("계정중지");
+						$("#btnEnabled").removeClass("btn-success");
+						$("#btnEnabled").addClass("btn-warning");
+					}
+					SelectList();
+				}
+	   });
+
+}
+
+function DeleteOne() {
+	var r = confirm($("#oid").text()+" 삭제하시겠습니까?");
+	if (r == true) {
+		$.ajax({
+				url: '/db/shop_connect.php',
+				  data: {
+					  action: 'DeleteOne',
+					  oid: $("#oid").text()
+				   },
+				  type: 'post',
+			}).done(function(data_result) {
+					if(data_result.indexOf("ok") < 0){
+						toastr.clear();
+						PopToast('error', '['+data_result+']','삭제');
+						SelectList();
+					}else{
+						toastr.clear();
+						PopToast('success', '처리완료','삭제');
+						SelectList();
+					}
+		   });
+	}
+}
+</script>
+<!-- end of Page level scripts-->
