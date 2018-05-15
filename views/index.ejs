@@ -16,7 +16,7 @@
     <!-- /#top -->
 
     <div class="wrapper">
-		<div id="left">
+		    <div id="left">
             <div class="menu_scroll">
                 <div class="left_media">
                     <div class="media user-media bg-dark dker">
@@ -97,8 +97,8 @@
                                 <div class="card">
 									<div class="card-header">
 										<div class="col-lg-6">
-											<span>매장 리스트</span>
-											<input type="text" id="txtSrch" name="txtSrch" class="form-control" style="display: inline-block; width:200px; margin-left: 10px;" placeholder="매장명 Search">
+											<span><%=page_title%></span>
+                      <input type="text" id="search-sku" class="" style="display: block; width:200px;" placeholder="SKU">
 										</div>
 										<div class="col-lg-6" align="right">
 											<button type="button" id="btnSrch" class="btn btn-warning" style="font-size: 12px;width: 30%;">조회</button>
@@ -115,13 +115,29 @@
 												</colgroup>
                                                 <thead>
                                                 <tr>
-                                                  <th>가입일</th>
-	                                                <th>매장명</th>
-                                                  <th>로그인정보</th>
-				                                          <th>결제유형</th>
+                                                  <th>Date</th>
+	                                                <th>Warehouse</th>
+                                                  <th>SKU</th>
+				                                          <th>Quantity IN</th>
+                                                  <th>Quantity OUT</th>
                                                 </tr>
                                                 </thead>
-                                                <tbody id="datas0" class="pointer">
+                                                <tbody id="" class="pointer">
+                                                    <% if (data) {
+                                                      for (var i=0; i < data.length; i++) { %>
+                                                      <tr>
+                                                        <td><%= moment(data[i].date).format('YYYY-MM-DD')%></td>
+                                                        <td><%=data[i].warehouse%></td>
+                                                        <td><%=data[i].sku%></td>
+                                                        <td><%=data[i].qty_in%></td>
+                                                        <td><%=data[i].qty_out%></td>
+                                                      </tr>
+                                                      <% }
+                                                    } else { %>
+                                                      <tr>
+                                                        <td>No data</td>
+                                                      </tr>
+                                                    <% } %>
 												<!-- data Area-->
 
                                                 </tbody>

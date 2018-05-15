@@ -1,9 +1,8 @@
 'use strict';
+var data = require('./db.js');
 
 module.exports = function(app) {
-    app.get('/', function(req, res) {
-        res.render('index');
-    });
+    app.get('/', data.list);
 
     app.get('/faq', function(req, res) {
         res.render('faq');
