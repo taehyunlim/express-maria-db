@@ -17,52 +17,51 @@
 
     <div class="wrapper">
         <div id="content" class="bg-container">
-                <header class="head">
-                    <div class="main-bar row">
-                        <div class="col-sm-5 col-lg-6 skin_txt">
-                            <h4 class="nav_top_align">
-                                <i class="fa fa-th"></i>
-                                Daily In&Out / ICTRAN Report
+            <header class="head">
+                <div class="main-bar row">
+                    <div class="col-sm-5 col-lg-6 skin_txt">
+                        <h4 class="nav_top_align">
+                            <i class="fa fa-th"></i>
+                            Daily In&Out / ICTRAN Report
                         </h4>
-                        </div>
-                        <div class="col-sm-7 col-lg-6">
-                            <ol class="breadcrumb float-xs-right nav_breadcrumb_top_align">
-                                <li class="breadcrumb-item">
-                                    <a href="#">
-                                        <i class="fa fa-home" data-pack="default" data-tags=""></i> Main
-                                    </a>
-                                </li>
-                                <li class="breadcrumb-item">
-                                    <a href="#">Reports</a>
-                                </li>
-                                <li class="active breadcrumb-item">Daily In&Out / ICTRAN Report</li>
-                            </ol>
-                        </div>
                     </div>
-                </header>
+                    <div class="col-sm-7 col-lg-6">
+                        <ol class="breadcrumb float-xs-right nav_breadcrumb_top_align">
+                            <li class="breadcrumb-item">
+                                <a href="#">
+                                    <i class="fa fa-home" data-pack="default" data-tags=""></i> Main
+                                </a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="#">Reports</a>
+                            </li>
+                            <li class="active breadcrumb-item">Daily In&Out / ICTRAN Report</li>
+                        </ol>
+                    </div>
+                </div>
+            </header>
             <div class="outer">
                 <div class="inner bg-container">
                         <div class="row">
-                            <div class="col-xs-12">
+                            <div class="col-lg-12">
                                 <div class="card">
 									<div class="card-header">
 										<div class="col-lg-6">
-											<span><%=page_title%></span>
-                      <input type="text" id="txtSrch" name="txtSrch" class="" style="display: block; width:200px;" placeholder="DATE">
+                                            <h3>Table: <%=page_title%></h4>
+											<span>Select Date Range:</span>
+                                                <input type="text" id="datepickerFrom" name="dateFrom" class="" style="display: block; width:150px;" placeholder="FROM">
+                                            <input type="text" id="datepickerTo" name="dateTo" class="" style="display: block; width:150px;" placeholder="TO">
 										</div>
 										<div class="col-lg-6" align="right">
-											<button type="button" id="btnSrch" class="btn btn-warning" style="font-size: 12px;width: 30%;">조회</button>
+											<button type="button" id="btnSrch" class="btn btn-warning" style="font-size: 12px;width: 30%;">Search</button>
                                         </div>
                                     </div>
-                                    <div class="card-block">
-                                        <div class="table-responsive m-t-5" style="height:700px;"><div class="loading_img" id="loading"><img src="/public/img/loader.gif" style=" width: 50px;" alt="loading..."></div>
+                                    <div class="card-block" style="max-height: 500px; overflow-y: scroll;">
+                                        <div class="table-responsive m-t-5">
+                                            <div class="loading_img" id="loading">
+                                                <img src="/public/img/loader.gif" style=" width: 50px;" alt="loading...">
+                                            </div>
                                             <table class="table table-striped table-bordered">
-												<!-- <colgroup>
-													<col width="20%">
-													<col width="40%">
-													<col width="20%">
-													<col width="20%">
-												</colgroup> -->
                                                 <thead>
                                                 <tr>
                                                     <th>No.</th>
@@ -106,22 +105,40 @@
                                                       </tr>
                                                     <% } %>
 												<!-- data Area-->
-
                                                 </tbody>
                                             </table>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-							<!-- left area end -->
-
-
-                            <!-- <div class="col-xs-4"> -->
-                              <!-- <% include ../public/partials/card-right %> -->
-                            <!-- </div> -->
-                            <!-- two column  form-->
-                            <!-- Basic Query Layout-->
-                            <!-- Horizontal Query layout-->
+                        </div>
+                        <div class="row" style="padding-top: 25px;">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <div class="col-lg-6">
+                                            <h3>Table:
+                                                <%=page_title%>
+                                                    </h4>
+                                                    <span>Select Date Range:</span>
+                                                    <input type="text" id="datepickerFrom" name="dateFrom" class="" style="display: block; width:150px;" placeholder="FROM">
+                                                    <input type="text" id="datepickerTo" name="dateTo" class="" style="display: block; width:150px;" placeholder="TO">
+                                        </div>
+                                        <div class="col-lg-6" align="right">
+                                            <button type="button" id="btnSrch" class="btn btn-warning" style="font-size: 12px;width: 30%;">Search</button>
+                                        </div>
+                                    </div>
+                                    <div class="card-block" style="max-height: 500px; overflow-y: scroll;">
+                                        <div class="table-responsive m-t-5">
+                                            <div class="loading_img" id="loading">
+                                                <img src="/public/img/loader.gif" style=" width: 50px;" alt="loading...">
+                                            </div>
+                                            <table class="table table-striped table-bordered">
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <!-- /.inner -->

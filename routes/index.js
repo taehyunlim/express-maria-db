@@ -12,7 +12,11 @@ module.exports = function(app) {
     app.get('/db/filter/date/:date/json', (req, res) => {
         let date = req.params.date;
         data.filterDateJSON(date, res);
-    })
+    });
+
+    app.get('/db/filter', (req, res) => {
+        data.filter(req, res);
+    });
 
     app.get('/faq', function(req, res) {
         res.render('faq');
