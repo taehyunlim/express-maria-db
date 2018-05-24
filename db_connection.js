@@ -1,13 +1,13 @@
 const mysql = require('mysql');
 const connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: '1234',
-  database: 'zinus_db'
+  host: '52.160.69.254',
+  user: 'wms',
+  password: '1951zinus',
+  database: 'wms'
 });
 
 connection.connect(() => {
-  connection.query('SELECT * FROM daily_io', (error, results, fields) => {
+  connection.query('SELECT * FROM r_innout', (error, results, fields) => {
     if (error) throw error;
     console.log(results);
   });

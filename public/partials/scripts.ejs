@@ -28,7 +28,7 @@
 <!-- <script type="text/javascript" src="js/pages/validation.js"></script> -->
 <script type="text/javascript" src="/public/js/common.js"></script>
 <script type="text/javascript" src="/public/js/jquery.tablesorter.min.js"></script>
-
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js"></script>
 
 <!--Page level scripts-->
 <script>
@@ -49,13 +49,82 @@ $(document).ready(function() {
 		SelectOne($(this).attr("oid"), $(this).attr("num"))
 	});
 
-	SelectConst();
+	// SelectConst();
 
-	SelectList();
+	// SelectList();
 
 	$("#btnSrch").on("click",function(){
 		strSrch = $("input[name='txtSrch']").val();
-		SelectList();
+		$.ajax({
+			url: `/db/filter/date/${strSrch}/json`,
+			// data: {action: 'SelectList', srch: strSrch},
+			type: 'GET',
+		}).done(function (result) {
+			let title = result.page_title;
+			let data = result.data;
+			let trString = "";
+
+			console.log(`WHERE date=${strSrch}, ${title} returned with ${data.length} rows.`);
+			$('#dataTable > tr').fadeOut("fast", function() { $(this).remove(); });
+
+			$.each(data, (i,row) => {
+				// console.log(`${data.length}`);
+				trString += '<tr>'
+				trString += `
+						<td>${i+1}</td>
+						<td>${moment(row.DT).format('YYYY-MM-DD')}</td>
+						<td>${row.LOC}</td>
+						<td>${row.ITEMNO}</td>
+						<td>${row.POQTY}</td>
+						<td>${row.SOQTY}</td>
+						<td>${row.L2QTY}</td>
+						<td>${row.LQTY}</td>
+						<td>${row.ADJQTY}</td>
+						<td>${row.CALQTY}</td>
+						<td>${row.DFQTY}</td>
+						<td>${row.CHK}</td>
+						<td>${moment(row.GEN_DT).format('YYYY-MM-DD HH:mm:ss')}</td>
+					`;
+				trString += "</tr>";
+			});
+			
+			console.log(trString);
+			$("#dataTable").prepend(trString);
+
+			//<td>${moment(row.DT).format('YYYY-MM-DD')}</td>
+			//<td>${moment(row.GEN_DT).format('YYYY-MM-DD HH:mm:ss')}</td>
+
+			// $.each(obj, function (k, v) {
+
+			// 	trstr += "<tr class='clickable-row'>";
+			// 	trstr += "<td>" + getDateTime(v.created.ts.$date.$numberLong * 1) + "</td>";
+			// 	if (v.info != null) {
+			// 		if (v.info.name != "undefined") {
+			// 			trstr += "<td class='clicklist' oid='" + v._id.$oid + "' num=" + k + " ><b>" + v.info.name.ko + "</b></td>";
+			// 		} else {
+			// 			trstr += "<td class='clicklist' oid='" + v._id.$oid + "' num=" + k + " ><b>-</b></td>";
+			// 		}
+			// 	} else {
+			// 		trstr += "<td class='clicklist' oid='" + v._id.$oid + "' num=" + k + " ><b>-</b></td>";
+			// 	}
+			// 	trstr += "<td class='clicklist' oid='" + v._id.$oid + "' num=" + k + " >" + v.shopid + "</td>";
+			// 	if (v.is_paid != null && v.is_paid == true) {
+			// 		trstr += "<td class='b red'>" + "유료" + "</td>";
+			// 	} else {
+			// 		trstr += "<td>" + "무료" + "</td>";
+			// 	}
+			// 	trstr += "</tr>";
+			// 	cnt1++;
+			// });
+
+			// if (cnt1 <= 0) {
+			// 	trstr = "<tr><td colspan='4'>조회결과가 없습니다.</td></tr>";
+			// }
+			// $("#dataTable").prepend(trstr);
+			//$('.preloader').hide();
+			$('#loading').hide();
+		});
+		// SelectList();
 	});
 
 	$("input[name='txtSrch']").keydown(function(key) {
@@ -183,9 +252,9 @@ function SelectList() {
 	// $('#loading').show();
 	//$('.preloader').show();
 	$.ajax({
-		  url: '/db/shop_connect.php',
-         data: {action: 'SelectList', srch: strSrch},
-         type: 'post',
+			url: `/db/filter/date/${strSrch}/json`,
+        	// data: {action: 'SelectList', srch: strSrch},
+			type: 'GET',
 		}).done(function(result) {
 			obj = $.parseJSON(result);
 			console.log(result);

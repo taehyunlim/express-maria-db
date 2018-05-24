@@ -124,7 +124,7 @@
   outline: none !important; }
 
 #top .navbar-brand {
-  padding-top: 16px; }
+  padding-top: 12px; }
 
 .user-info li {
   color: #ccc; }
@@ -1302,8 +1302,6 @@ table.dataTable thead .sorting_asc:before, table.dataTable thead .sorting_desc:a
 
 @media screen and (min-width: 767px) {
   /* =============================End of Boxed layout css =========================*/
-  .head {
-    margin-top: 10px; }
   #top.fixed {
     position: fixed;
     z-index: 1040;

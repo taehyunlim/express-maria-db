@@ -16,76 +16,26 @@
     <!-- /#top -->
 
     <div class="wrapper">
-		    <div id="left">
-            <div class="menu_scroll">
-                <div class="left_media">
-                    <div class="media user-media bg-dark dker">
-
-                    </div>
-                    <hr/>
-                </div>
-                <ul id="menu">
-                    <li class="dropdown_menu">
-                        <a href="javascript:;">
-                            <i class="fa fa-th"></i>
-                            <span class="link-title menu_hide">&nbsp; 서비스관리</span>
-                            <span class="fa arrow menu_hide"></span>
-                        </a>
-                        <ul>
-                            <li>
-                                <a href="notice.php">
-                                    <i class="fa fa-angle-right"></i>
-                                    &nbsp; 공지사항
-                                </a>
-                            </li>
-                            <li>
-                                <a href="faq.html">
-                                    <i class="fa fa-angle-right"></i>
-                                    &nbsp; FAQ
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="dropdown_menu">
-                        <a href="javascript:;">
-                            <i class="fa fa-sitemap"></i>
-                            <span class="link-title menu_hide">&nbsp; 일반관리</span>
-                            <span class="fa arrow menu_hide"></span>
-                        </a>
-                        <ul>
-                            <li>
-                                <a href="shop_manage.html">
-                                    <i class="fa fa-angle-right"></i>
-                                    &nbsp; 매장리스트
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-                <!-- /#menu -->
-            </div>
-        </div>
-        <!-- /#left -->
         <div id="content" class="bg-container">
                 <header class="head">
                     <div class="main-bar row">
                         <div class="col-sm-5 col-lg-6 skin_txt">
                             <h4 class="nav_top_align">
-                            <i class="fa fa-th"></i>
-                            일반관리/매장리스트
+                                <i class="fa fa-th"></i>
+                                Daily In&Out / ICTRAN Report
                         </h4>
                         </div>
                         <div class="col-sm-7 col-lg-6">
                             <ol class="breadcrumb float-xs-right nav_breadcrumb_top_align">
                                 <li class="breadcrumb-item">
-                                    <a href="index1.html">
-                                        <i class="fa fa-home" data-pack="default" data-tags=""></i> 메인
+                                    <a href="#">
+                                        <i class="fa fa-home" data-pack="default" data-tags=""></i> Main
                                     </a>
                                 </li>
                                 <li class="breadcrumb-item">
-                                    <a href="#">일반관리</a>
+                                    <a href="#">Reports</a>
                                 </li>
-                                <li class="active breadcrumb-item">매장리스트</li>
+                                <li class="active breadcrumb-item">Daily In&Out / ICTRAN Report</li>
                             </ol>
                         </div>
                     </div>
@@ -93,12 +43,12 @@
             <div class="outer">
                 <div class="inner bg-container">
                         <div class="row">
-                            <div class="col-xs-8">
+                            <div class="col-xs-12">
                                 <div class="card">
 									<div class="card-header">
 										<div class="col-lg-6">
 											<span><%=page_title%></span>
-                      <input type="text" id="search-sku" class="" style="display: block; width:200px;" placeholder="SKU">
+                      <input type="text" id="txtSrch" name="txtSrch" class="" style="display: block; width:200px;" placeholder="DATE">
 										</div>
 										<div class="col-lg-6" align="right">
 											<button type="button" id="btnSrch" class="btn btn-warning" style="font-size: 12px;width: 30%;">조회</button>
@@ -107,30 +57,47 @@
                                     <div class="card-block">
                                         <div class="table-responsive m-t-5" style="height:700px;"><div class="loading_img" id="loading"><img src="/public/img/loader.gif" style=" width: 50px;" alt="loading..."></div>
                                             <table class="table table-striped table-bordered">
-												<colgroup>
+												<!-- <colgroup>
 													<col width="20%">
 													<col width="40%">
 													<col width="20%">
 													<col width="20%">
-												</colgroup>
+												</colgroup> -->
                                                 <thead>
                                                 <tr>
-                                                  <th>Date</th>
-	                                                <th>Warehouse</th>
-                                                  <th>SKU</th>
-				                                          <th>Quantity IN</th>
-                                                  <th>Quantity OUT</th>
+                                                    <th>No.</th>
+                                                    <th>DT</th>
+	                                                <th>LOC</th>
+                                                    <th>SKU</th>
+				                                    <th>POQTY`</th>
+                                                    <th>SOQTY</th>
+                                                    <th>L2QTY</th>
+                                                    <th>LQTY</th>
+                                                    <th>ADJQTY</th>
+                                                    <th>CALQTY</th>
+                                                    <th>DFQTY</th>
+                                                    <th>CHK</th>
+                                                    <th>GEN_DT</th>
                                                 </tr>
                                                 </thead>
-                                                <tbody id="" class="pointer">
+                                                <tbody id="dataTable" class="pointer">
                                                     <% if (data) {
-                                                      for (var i=0; i < data.length; i++) { %>
+                                                      for (var i=0; i < data.length; i++) { 
+                                                        var row=data[i];  %>
                                                       <tr>
-                                                        <td><%= moment(data[i].date).format('YYYY-MM-DD')%></td>
-                                                        <td><%=data[i].warehouse%></td>
-                                                        <td><%=data[i].sku%></td>
-                                                        <td><%=data[i].qty_in%></td>
-                                                        <td><%=data[i].qty_out%></td>
+                                                        <td><%=i+1%></td>
+                                                        <td><%=moment(row.DT).format('YYYY-MM-DD')%></td>
+                                                        <td><%=row.LOC%></td>
+                                                        <td><%=row.ITEMNO%></td>
+                                                        <td><%=row.POQTY%></td>
+                                                        <td><%=row.SOQTY%></td>
+                                                        <td><%=row.L2QTY%></td>
+                                                        <td><%=row.LQTY%></td>
+                                                        <td><%=row.ADJQTY%></td>
+                                                        <td><%=row.CALQTY%></td>
+                                                        <td><%=row.DFQTY%></td>
+                                                        <td><%=row.CHK%></td>
+                                                        <td><%=moment(row.GEN_DT).format('YYYY-MM-DD HH:mm:ss')%></td>
                                                       </tr>
                                                       <% }
                                                     } else { %>
@@ -149,9 +116,9 @@
 							<!-- left area end -->
 
 
-                            <div class="col-xs-4">
-                              <% include ../public/partials/card-right %>
-                            </div>
+                            <!-- <div class="col-xs-4"> -->
+                              <!-- <% include ../public/partials/card-right %> -->
+                            <!-- </div> -->
                             <!-- two column  form-->
                             <!-- Basic Query Layout-->
                             <!-- Horizontal Query layout-->
